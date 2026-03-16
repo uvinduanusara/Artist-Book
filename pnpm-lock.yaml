@@ -72,20 +72,26 @@ importers:
       bcryptjs:
         specifier: ^2.4.3
         version: 2.4.3
+      cors:
+        specifier: ^2.8.6
+        version: 2.8.6
       dotenv:
-        specifier: ^16.4.0
+        specifier: ^16.6.1
         version: 16.6.1
       express:
-        specifier: ^4.19.0
+        specifier: ^4.22.1
         version: 4.22.1
+      helmet:
+        specifier: ^7.2.0
+        version: 7.2.0
       jsonwebtoken:
-        specifier: ^9.0.0
+        specifier: ^9.0.3
         version: 9.0.3
       twilio:
-        specifier: ^5.0.0
+        specifier: ^5.13.0
         version: 5.13.0
       zod:
-        specifier: ^3.23.0
+        specifier: ^3.25.76
         version: 3.25.76
     devDependencies:
       '@artistbook/config':
@@ -95,22 +101,25 @@ importers:
         specifier: workspace:*
         version: link:../../packages/db
       '@types/bcryptjs':
-        specifier: ^2.4.0
+        specifier: ^2.4.6
         version: 2.4.6
+      '@types/cors':
+        specifier: ^2.8.19
+        version: 2.8.19
       '@types/express':
-        specifier: ^4.17.0
+        specifier: ^4.17.25
         version: 4.17.25
       '@types/jsonwebtoken':
-        specifier: ^9.0.0
+        specifier: ^9.0.10
         version: 9.0.10
       '@types/node':
-        specifier: ^20.0.0
+        specifier: ^20.19.37
         version: 20.19.37
       ts-node-dev:
         specifier: ^2.0.0
         version: 2.0.0(@types/node@20.19.37)(typescript@5.9.3)
       typescript:
-        specifier: ^5.4.0
+        specifier: ^5.9.3
         version: 5.9.3
 
   apps/search-service:

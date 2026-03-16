@@ -5,5 +5,9 @@
   "exports": {
     "./tsconfig/base.json": "./tsconfig.base.json",
     "./tsconfig/nextjs.json": "./tsconfig.nextjs.json"
-  }
+  },
+  "files": [
+    "tsconfig.base.json",
+    "tsconfig.nextjs.json"
+  ]
 }
