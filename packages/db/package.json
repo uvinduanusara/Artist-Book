@@ -15,11 +15,11 @@
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
-    "@prisma/client": "^6.0.0"
+    "@prisma/client": "^6.19.2"
   },
   "devDependencies": {
     "@artistbook/config": "workspace:*",
-    "prisma": "^6.0.0",
+    "prisma": "^6.19.2",
     "typescript": "^5.4.0"
   }
 }

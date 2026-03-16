@@ -1,0 +1,142 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  VIEWER
+  ARTIST
+  CUSTOMER
+  ADMIN
+}
+
+enum GigStatus {
+  DRAFT
+  PENDING_APPROVAL
+  ACTIVE
+  COMPLETED
+  CANCELLED
+}
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+  COMPLETED
+}
+
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  username      String    @unique
+  passwordHash  String
+  role          UserRole  @default(VIEWER)
+  isVerified    Boolean   @default(false)
+  isActive      Boolean   @default(true)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  artist        Artist?
+  customer      Customer?
+  refreshTokens RefreshToken[]
+}
+
+model Artist {
+  id           String    @id @default(cuid())
+  userId       String    @unique
+  user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  firstName    String
+  lastName     String
+  bio          String?
+  genre        String[]
+  minPrice     Float?
+  phone        String?
+  rating       Float     @default(0)
+  reviewCount  Int       @default(0)
+  isBoosted    Boolean   @default(false)
+  boostExpiry  DateTime?
+  galleryUrls  String[]
+  bankDetails  String?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  gigs         Gig[]
+  reviews      Review[]
+  bookings     Booking[]
+}
+
+model Customer {
+  id          String    @id @default(cuid())
+  userId      String    @unique
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  firstName   String
+  lastName    String
+  orgName     String?
+  orgDesc     String?
+  phone       String?
+  rating      Float     @default(0)
+  galleryUrls String[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  gigs        Gig[]
+  bookings    Booking[]
+}
+
+model Gig {
+  id            String    @id @default(cuid())
+  artistId      String
+  artist        Artist    @relation(fields: [artistId], references: [id], onDelete: Cascade)
+  customerId    String?
+  customer      Customer? @relation(fields: [customerId], references: [id])
+  title         String
+  description   String?
+  eventLocation String
+  eventDate     DateTime
+  crowd         Int?
+  price         Float
+  status        GigStatus @default(DRAFT)
+  isBoosted     Boolean   @default(false)
+  boostExpiry   DateTime?
+  galleryUrls   String[]
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  reviews       Review[]
+  bookings      Booking[]
+}
+
+model Booking {
+  id              String        @id @default(cuid())
+  gigId           String
+  gig             Gig           @relation(fields: [gigId], references: [id])
+  artistId        String
+  artist          Artist        @relation(fields: [artistId], references: [id])
+  customerId      String
+  customer        Customer      @relation(fields: [customerId], references: [id])
+  status          BookingStatus @default(PENDING)
+  totalPrice      Float
+  stripePaymentId String?
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+}
+
+model Review {
+  id        String   @id @default(cuid())
+  artistId  String
+  artist    Artist   @relation(fields: [artistId], references: [id], onDelete: Cascade)
+  gigId     String
+  gig       Gig      @relation(fields: [gigId], references: [id])
+  rating    Int
+  comment   String?
+  createdAt DateTime @default(now())
+}
+
+model RefreshToken {
+  id        String   @id @default(cuid())
+  token     String   @unique
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+}
