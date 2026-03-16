@@ -1,4 +1,4 @@
-import { Router } from 'express'
+import { Router, IRouter } from 'express'
 import {
   register,
   login,
@@ -8,7 +8,7 @@ import {
   verifyOtp,
 } from '../controllers/auth.controller'
 
-export const authRouter = Router()
+export const authRouter: IRouter = Router()
 
 authRouter.post('/register', register)
 authRouter.post('/login', login)
